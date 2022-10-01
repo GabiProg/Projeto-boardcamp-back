@@ -1,13 +1,16 @@
 import connection from "../database.js";
 
 export async function ListarCategorias (req, res) {
-    const categorias = await connection.query('SELECT * FROM categories;');
-    res.send(categorias.rows);
+    try {
+        const categorias = await connection.query('SELECT * FROM categories;');
+        res.send(categorias.rows);
+    } catch (error) {
+        res.sendStatus(500);
+    }
 }
 
 export async function InserirCategorias (req, res) {
     const { name } = req.body;
-    console.log(name);
 
     if (!name) {
         return res.status(400).send('Campo name não pode estar vazio.');;
