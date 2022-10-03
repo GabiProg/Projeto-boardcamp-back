@@ -1,2 +1,8 @@
 /node_modules
+/scripts
 .env
+database
+functions
+connect-database
+create-database
+destroy-database
