@@ -7,7 +7,7 @@ export async function ListaCustomers (req, res) {
     try {
         if (cpf) {
             const listaClientes = await connect.query(
-                `SELECT * FROM customers WHERE cpf  ILIKE '${cpf}%';`
+                `SELECT * FROM customers WHERE cpf ILIKE '${cpf}%';`
             );
             res.send(listaClientes.rows);
             return;
@@ -111,6 +111,9 @@ export async function AtualizarCustomers (req, res) {
             'SELECT * FROM customers WHERE id = $1;', [id]
         );
         const ids = listarId.rows.map(item => item.id);
+        if (!ids[0]) {
+            return res.sendStatus(409);
+        }
 
         await connect.query(`
             UPDATE customers SET name = $1, phone = $2, cpf = $3, birthday = $4 WHERE id = $5;
